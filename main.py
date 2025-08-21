@@ -2,8 +2,15 @@ import os, tempfile
 from fastapi import FastAPI, Form
 from fastapi.responses import JSONResponse, FileResponse
 from gtts import gTTS
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 
 @app.post("/translate/")
 async def translate_text(
@@ -30,3 +37,4 @@ async def translate_text(
 async def serve_audio(filename: str):
     path = os.path.join(tempfile.gettempdir(), filename)
     return FileResponse(path, media_type="audio/mpeg")
+
