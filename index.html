@@ -68,6 +68,7 @@
           body: formData
         });
         const data = await res.json();
+        console.log("Response JSON:", data);
 
         document.getElementById("original").innerText = data.original_text;
         document.getElementById("translated").innerText = data.translated_text;
@@ -82,5 +83,6 @@
   </script>
 </body>
 </html>
+
 
 
