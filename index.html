@@ -63,7 +63,7 @@
       document.getElementById("status").innerText = "Translating...";
 
       try {
-        const res = await fetch("https://https://healthcare-translation-web-app-demo-2.onrender.com/translate/", {
+        const res = await fetch("https://healthcare-translation-web-app-demo-2.onrender.com/translate", {
           method: "POST",
           body: formData
         });
@@ -71,7 +71,7 @@
 
         document.getElementById("original").innerText = data.original_text;
         document.getElementById("translated").innerText = data.translated_text;
-        document.getElementById("player").src = `https://https://healthcare-translation-web-app-demo-2.onrender.com/audio/${data.audio_file}`;
+        document.getElementById("player").src = `https://healthcare-translation-web-app-demo-2.onrender.com/audio/${data.audio_file}`;
 
         document.getElementById("status").innerText = "✅ Done";
       } catch (err) {
@@ -82,4 +82,5 @@
   </script>
 </body>
 </html>
+
 
