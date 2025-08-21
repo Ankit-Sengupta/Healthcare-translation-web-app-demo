@@ -11,6 +11,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
 
 @app.post("/translate/")
 async def translate_text(
@@ -37,4 +38,5 @@ async def translate_text(
 async def serve_audio(filename: str):
     path = os.path.join(tempfile.gettempdir(), filename)
     return FileResponse(path, media_type="audio/mpeg")
+
 
