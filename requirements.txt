@@ -3,4 +3,5 @@ uvicorn
 gtts
 openai
 cryptography
-pyhton-multipart
+python-multipart
+
