@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Translation App</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 1rem; }
+    header { background: #0077cc; color: white; padding: 1rem; text-align: center; font-size: 1.2rem; }
+    .card { max-width: 600px; margin: auto; padding: 1rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    textarea, select, button { width: 100%; margin-top: 0.5rem; padding: 0.6rem; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #0077cc; color: white; border: none; cursor: pointer; font-size: 1rem; }
+    button:hover { background: #005fa3; }
+    .result { margin-top: 1rem; padding: 0.8rem; background: #f0f4f8; border-radius: 8px; }
+    audio { margin-top: 0.8rem; width: 100%; }
+  </style>
+</head>
+<body>
+  <header>🌐 Healthcare Translation Demo</header>
+
+  <div class="card">
+    <label for="inputText">Speak or Enter Text:</label>
+    <textarea id="inputText">Hello, how are you?</textarea>
+
+    <label for="inputLang">From:</label>
+    <select id="inputLang">
+      <option value="en">English</option>
+      <option value="hi">Hindi</option>
+      <option value="es">Spanish</option>
+      <option value="fr">French</option>
+    </select>
+
+    <label for="outputLang">To:</label>
+    <select id="outputLang">
+      <option value="hi">Hindi</option>
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="fr">French</option>
+    </select>
+
+    <button onclick="doTranslate()">Translate</button>
+    <span id="status"></span>
+
+    <div class="result">
+      <h3>Result</h3>
+      <p><strong>Original:</strong> <span id="original"></span></p>
+      <p><strong>Translated:</strong> <span id="translated"></span></p>
+      <audio id="player" controls></audio>
+    </div>
+  </div>
+
+  <script>
+    async function doTranslate() {
+      const text = document.getElementById("inputText").value;
+      const inputLang = document.getElementById("inputLang").value;
+      const outputLang = document.getElementById("outputLang").value;
+
+      const formData = new FormData();
+      formData.append("text", text);
+      formData.append("input_lang_code", inputLang);
+      formData.append("output_lang_code", outputLang);
+
+      document.getElementById("status").innerText = "Translating...";
+
+      try {
+        const res = await fetch("https://YOUR-BACKEND-URL.onrender.com/translate/", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+
+        document.getElementById("original").innerText = data.original_text;
+        document.getElementById("translated").innerText = data.translated_text;
+        document.getElementById("player").src = `https://YOUR-BACKEND-URL.onrender.com/audio/${data.audio_file}`;
+
+        document.getElementById("status").innerText = "✅ Done";
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Error";
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
